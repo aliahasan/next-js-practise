@@ -17,7 +17,7 @@ export default function RootLayout({ children }) {
         <div className="grid-background"></div>
         <div className="min-h-screen flex flex-col">
           {/* Main content area with padding-top to ensure it starts below the navbar */}
-          <main className="flex-grow pt-[73px]">{children}</main>
+          <main className="flex-grow">{children}</main>
           <footer className="bg-slate-800 py-4 text-center">
             This is the footer
           </footer>

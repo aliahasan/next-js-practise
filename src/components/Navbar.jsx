@@ -1,13 +1,14 @@
 "use client";
-
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 import DashNav from "./DashNav";
+import { signOut, useSession } from "next-auth/react";
+import Image from "next/image";
 
 const Navbar = () => {
   const pathname = usePathname(); // Corrected the variable name to camelCase
-  const router = useRouter();
+  const session = useSession();
 
   const links = [
     { title: "Home", path: "/" },
@@ -23,17 +24,12 @@ const Navbar = () => {
     return <DashNav />;
   }
   // Function to handle login redirection
-  const handleLogin = () => {
-    router.push("/login");
-  };
-
 
   return (
     <nav className="sticky top-0 left-0 w-full bg-white/20 backdrop-blur-lg text-white font-semibold py-4 px-10 z-50">
       <div className="container mx-auto flex items-center justify-between">
         {/* Logo section */}
         <h6 className="text-2xl font-bold">Logo</h6>
-
         {/* Links section */}
         <ul className="flex items-center gap-x-10">
           {links.map((link, index) => (
@@ -49,14 +45,42 @@ const Navbar = () => {
             </li>
           ))}
         </ul>
-
         {/* Login button */}
-        <button
-          onClick={handleLogin}
-          className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 transition-colors duration-300"
-        >
-          Login
-        </button>
+        <>
+          <div className="flex items-center gap-x-3  ">
+            <div>
+              {session?.data?.user?.image && (
+                <Image
+                  src={session.data?.user?.image}
+                  width={36}
+                  height={30}
+                  className="rounded-full"
+                  aria-required="true"
+                  alt="image"
+                ></Image>
+              )}
+            </div>
+            <Link href="/api/auth/signup">
+              <button className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 transition-colors duration-300">
+                Signup
+              </button>
+            </Link>
+            {session.data?.user ? (
+              <button
+                onClick={() => signOut()}
+                className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 transition-colors duration-300"
+              >
+                Logout
+              </button>
+            ) : (
+              <Link href="/api/auth/signin">
+                <button className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 transition-colors duration-300">
+                  Login
+                </button>
+              </Link>
+            )}
+          </div>
+        </>
       </div>
     </nav>
   );

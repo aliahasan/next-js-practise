@@ -67,7 +67,6 @@ const MyMeals = () => {
                   layout="fill" // Fill the container
                   objectFit="cover" // Ensures the image covers the container
                   className="rounded-t-lg"
-                  
                 />
               </div>
               <div className="p-4">

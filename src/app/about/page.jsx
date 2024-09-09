@@ -1,8 +1,11 @@
+import { getServerSession } from "next-auth";
 import Link from "next/link";
 import React from "react";
+import { authOptions } from "../api/auth/[...nextauth]/route";
 
-
-const About = () => {
+const About = async () => {
+  const session = await getServerSession(authOptions);
+  console.log(session)
   return (
     <div>
       <h1>About Page</h1>
@@ -15,3 +18,5 @@ const About = () => {
 };
 
 export default About;
+
+
